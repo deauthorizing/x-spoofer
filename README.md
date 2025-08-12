@@ -4,7 +4,7 @@ A userscript to LARP your username and followers on [x.com](https://x.com) - mad
 
 # ⚠️ Bugs
 
-There's a few bugs left in the script, so if you notice any then feel free to dm [@wasthattoomuchforyou](https://t.me/wasthattoomuchforyou) or [@loficat](https://t.me/loficat). Before you report the bug, make sure to send us a video of the bug.
+Don't expect the script to be perfect, of course there's gonna be some bugs in it so if you see any then please contact [@wasthattoomuchforyou](https://t.me/wasthattoomuchforyou) or [@loficat](https://t.me/loficat). Send us a video of the bug so we know how to fix it.
 
 ## 🌀 What It Does
 
