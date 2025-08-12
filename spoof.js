@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Twitter/X Live Spoofer v6.2 — Selective Live Spoofing (names + counts)
+// @name         cool x larp haha xd
 // @namespace    http://tampermonkey.net/
 // @version      6.2
 // @description  fusi and wish made this
@@ -29,7 +29,6 @@
     fakeFollowingEnabled: 'x_spoof_fake_following_enabled'
   };
 
-  // runtime cached values
   let REAL_DISPLAY_NAME = '';
   let REAL_HANDLE = '';
   let SPOOF_DISPLAY_NAME = '';
@@ -45,7 +44,6 @@
   const HANDLE_TEXT_REGEX = /^@[\w_]{1,30}$/;
   const HANDLE_INPUT_REGEX = /^[\w_]{1,30}$/;
 
-  // --- utils ---
   function isVisible(el) {
     if (!el) return false;
     try {
@@ -72,7 +70,6 @@
     return false;
   }
 
-  // --- detection helpers ---
   function detectRealNameAndHandle() {
     const nodes = document.querySelectorAll('span,div,a,b,strong');
     for (const n of nodes) {
@@ -130,9 +127,6 @@
     localStorage.setItem(LS_KEYS.spoofEnabled, String(v));
   }
 
-  // --- core replacements ---
-
-  // UPDATED for live checkbox toggles: instantly revert or apply names/handles
   function applyNameHandleReplacement(root = document) {
     if (!root) return 0;
     let changed = 0;
@@ -143,21 +137,18 @@
       if (!text) continue;
 
       if (SPOOF_ENABLED) {
-        // If fake-name toggle ON -> replace real -> fake. If toggle OFF but DOM has spoof -> revert spoof -> real.
         if (FAKE_NAME_ENABLED && REAL_DISPLAY_NAME && text === REAL_DISPLAY_NAME) {
           for (const node of el.childNodes) if (replaceTextExact(node, REAL_DISPLAY_NAME, SPOOF_DISPLAY_NAME)) changed++;
         } else if (!FAKE_NAME_ENABLED && SPOOF_DISPLAY_NAME && text === SPOOF_DISPLAY_NAME) {
           for (const node of el.childNodes) if (replaceTextExact(node, SPOOF_DISPLAY_NAME, REAL_DISPLAY_NAME)) changed++;
         }
 
-        // Handles (@username)
         if (FAKE_HANDLE_ENABLED && REAL_HANDLE && text === REAL_HANDLE) {
           for (const node of el.childNodes) if (replaceTextExact(node, REAL_HANDLE, SPOOF_HANDLE)) changed++;
         } else if (!FAKE_HANDLE_ENABLED && SPOOF_HANDLE && text === SPOOF_HANDLE) {
           for (const node of el.childNodes) if (replaceTextExact(node, SPOOF_HANDLE, REAL_HANDLE)) changed++;
         }
       } else {
-        // Spoof globally disabled -> if DOM shows spoof values, restore real values.
         if (SPOOF_DISPLAY_NAME && text === SPOOF_DISPLAY_NAME) {
           for (const node of el.childNodes) if (replaceTextExact(node, SPOOF_DISPLAY_NAME, REAL_DISPLAY_NAME)) changed++;
         }
@@ -170,9 +161,6 @@
   }
 
 
-  // --- counts with blacklist & pluralization ---
-
-  // UPDATED for live checkbox toggles: instantly revert or apply follower/following counts
   function applyCountsReplacement(root = document) {
     if (!root) return 0;
     let changed = 0;
@@ -203,18 +191,14 @@
       if (label.includes('follower')) {
         let targetCount = 0;
         if (SPOOF_ENABLED) {
-          // If spoof ON and follower checkbox ON -> show spoof value.
-          // If spoof ON but follower checkbox OFF -> immediately restore true/original value.
           if (FAKE_FOLLOWERS_ENABLED) targetCount = Number(SPOOF_FOLLOWERS) || 0;
           else targetCount = restoreCount('followers');
         } else {
-          // Spoof globally OFF -> restore true/original value.
           targetCount = restoreCount('followers');
         }
         const fmt = formatCount(targetCount);
         if ((numSpan.textContent || '').trim() !== fmt) { numSpan.textContent = fmt; changed++; }
 
-        // pluralization label
         const spanList = link.querySelectorAll('span');
         if (spanList.length >= 2) {
           const labelNode = spanList[spanList.length - 1];
@@ -241,7 +225,6 @@
   }
 
 
-  // --- topbar: selected /home tab → "Following" if numeric; use stored orig for restore ---
   function fixTopbarFollowingLabels(root = document) {
     let changed = 0;
     try {
@@ -270,7 +253,6 @@
     return changed;
   }
 
-  // --- title spoofing (global) ---
   function spoofTitle() {
     try {
       let title = document.title || '';
@@ -287,7 +269,6 @@
     return false;
   }
 
-  // --- runAll ---
   function runAll(root = document) {
     try {
       refreshRuntimeFromStorage();
@@ -299,12 +280,10 @@
     } catch (e) { console.error('[SPOOF] runAll error', e); }
   }
 
-  // --- GUI (editable real fields + checkboxes, same modal style as v5.9) ---
   function buildSettingsModal() {
     const existing = document.getElementById('x-spoof-settings-backdrop');
     if (existing) existing.remove();
 
-    // re-detect (do NOT overwrite true-original backup here)
     const found = detectRealNameAndHandle();
     const detectedCounts = detectRealCounts();
     if (found.display && !localStorage.getItem(LS_KEYS.trueRealDisplayName)) localStorage.setItem(LS_KEYS.trueRealDisplayName, found.display);
@@ -370,7 +349,6 @@
     elClose.onclick = close;
     elCancel.onclick = close;
 
-    // set initial checkbox states (best-effort)
     try {
       const cbName = modal.querySelector('#xsp-fake-name');
       const cbHandle = modal.querySelector('#xsp-fake-handle');
@@ -382,8 +360,6 @@
       if (cbFollowing) cbFollowing.checked = FAKE_FOLLOWING_ENABLED;
     } catch(e) { console.error('checkbox setup error', e); }
 
-    // --- LIVE behavior for checkboxes ---
-    // when user checks/unchecks, save immediately and apply instantly
     try {
       const bindLiveCheckbox = (selector, lsKey, assignFlag) => {
         const checkbox = modal.querySelector(selector);
@@ -393,7 +369,6 @@
             const val = !!checkbox.checked;
             localStorage.setItem(lsKey, String(val));
             if (typeof assignFlag === 'function') assignFlag(val);
-            // ensure runtime uses latest values then reapply instantly
             refreshRuntimeFromStorage();
             applyNameHandleReplacement(document);
             spoofTitle();
@@ -412,7 +387,6 @@
       const c = detectRealCounts();
       if (f.display) modal.querySelector('#xsp-real-display').value = f.display;
       if (f.handle) modal.querySelector('#xsp-real-handle').value = f.handle.replace(/^@/,'');
-      // set true-original backup if missing
       if (f.display && !localStorage.getItem(LS_KEYS.trueRealDisplayName)) localStorage.setItem(LS_KEYS.trueRealDisplayName, f.display);
       if (f.handle && !localStorage.getItem(LS_KEYS.trueRealHandle)) localStorage.setItem(LS_KEYS.trueRealHandle, f.handle.replace(/^@/,''));
       if (c.followers && !localStorage.getItem(LS_KEYS.trueRealFollowers)) localStorage.setItem(LS_KEYS.trueRealFollowers, c.followers);
@@ -431,16 +405,12 @@
       if (realHandleVal && !HANDLE_INPUT_REGEX.test(realHandleVal)) { elError.textContent = 'Invalid real handle (letters/numbers/underscores only).'; return; }
       if (spoofHandleVal && !HANDLE_INPUT_REGEX.test(spoofHandleVal)) { elError.textContent = 'Invalid spoof handle (letters/numbers/underscores only).'; return; }
 
-      // save user-real values (editable by user)
       localStorage.setItem(LS_KEYS.realDisplayName, realDisplayVal);
       localStorage.setItem(LS_KEYS.realHandle, realHandleVal);
-      // save spoof values
       localStorage.setItem(LS_KEYS.spoofDisplayName, spoofDisplayVal);
       localStorage.setItem(LS_KEYS.spoofHandle, spoofHandleVal);
-      // save spoof counts (do NOT overwrite true-originals)
       localStorage.setItem(LS_KEYS.followers, String(Math.max(0, Number(followersVal || 0))));
       localStorage.setItem(LS_KEYS.following, String(Math.max(0, Number(followingVal || 0))));
-      // Save checkbox states as part of Save as well (they've already been saving on change)
       localStorage.setItem(LS_KEYS.fakeNameEnabled, String(!!modal.querySelector('#xsp-fake-name').checked));
       localStorage.setItem(LS_KEYS.fakeHandleEnabled, String(!!modal.querySelector('#xsp-fake-handle').checked));
       localStorage.setItem(LS_KEYS.fakeFollowersEnabled, String(!!modal.querySelector('#xsp-fake-followers').checked));
@@ -452,7 +422,6 @@
     };
   }
 
-  // --- shortcuts (with fresh re-detect on OFF using true-original backup if present) ---
   function bindShortcuts() {
     document.addEventListener('keydown', (e) => {
       if (!(e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey)) return;
@@ -467,12 +436,10 @@
         saveSpoofEnabled(newState);
 
         if (!newState) {
-          // turning spoof OFF -> prefer true-original backup if present (names)
           const trueDisplay = localStorage.getItem(LS_KEYS.trueRealDisplayName);
           const trueHandleRaw = localStorage.getItem(LS_KEYS.trueRealHandle);
           if (trueDisplay) localStorage.setItem(LS_KEYS.realDisplayName, trueDisplay);
           if (trueHandleRaw) localStorage.setItem(LS_KEYS.realHandle, trueHandleRaw);
-          // For counts: ensure true-original backups exist (don't overwrite spoof values)
           const trueFollowers = localStorage.getItem(LS_KEYS.trueRealFollowers);
           const trueFollowing = localStorage.getItem(LS_KEYS.trueRealFollowing);
           if (!trueFollowers || !trueFollowing) {
@@ -480,7 +447,6 @@
             if (freshCounts.followers) localStorage.setItem(LS_KEYS.trueRealFollowers, freshCounts.followers);
             if (freshCounts.following) localStorage.setItem(LS_KEYS.trueRealFollowing, freshCounts.following);
           }
-          // If no true-original backup for names, attempt a fresh detection (may fail if DOM currently shows spoof)
           if (!trueDisplay || !trueHandleRaw) {
             const fresh = detectRealNameAndHandle();
             if (fresh.display) localStorage.setItem(LS_KEYS.realDisplayName, fresh.display);
@@ -488,7 +454,6 @@
           }
           refreshRuntimeFromStorage();
         } else {
-          // turning spoof ON — don't change stored real values or true-originals
           refreshRuntimeFromStorage();
         }
 
@@ -498,17 +463,14 @@
     });
   }
 
-  // --- bootstrap: initial detection and true-original backup if missing ---
   (function initialDetectAndStore() {
     const f = detectRealNameAndHandle();
     if (f.display && !localStorage.getItem(LS_KEYS.realDisplayName)) localStorage.setItem(LS_KEYS.realDisplayName, f.display);
     if (f.handle && !localStorage.getItem(LS_KEYS.realHandle)) localStorage.setItem(LS_KEYS.realHandle, f.handle.replace(/^@/,''));
 
-    // store true-original backup for names if missing
     if (f.display && !localStorage.getItem(LS_KEYS.trueRealDisplayName)) localStorage.setItem(LS_KEYS.trueRealDisplayName, f.display);
     if (f.handle && !localStorage.getItem(LS_KEYS.trueRealHandle)) localStorage.setItem(LS_KEYS.trueRealHandle, f.handle.replace(/^@/,''));
 
-    // detect & store true-original counts if missing
     const c = detectRealCounts();
     if (c.followers && !localStorage.getItem(LS_KEYS.trueRealFollowers)) localStorage.setItem(LS_KEYS.trueRealFollowers, c.followers);
     if (c.following && !localStorage.getItem(LS_KEYS.trueRealFollowing)) localStorage.setItem(LS_KEYS.trueRealFollowing, c.following);
@@ -516,14 +478,12 @@
     refreshRuntimeFromStorage();
   })();
 
-  // initial apply + observers + continuous reapply
   runAll(document);
           spoofTitle();
 new MutationObserver(m => m.forEach(rec => rec.addedNodes.forEach(node => { if (node.nodeType === 1) runAll(node); }))).observe(document.body, { childList:true, subtree:true });
   setInterval(() => runAll(document), 75);
   bindShortcuts();
 
-  // helpers exposed for debugging
   window.__x_spoof = window.__x_spoof || {};
   window.__x_spoof.reapply = () => runAll(document);
           spoofTitle();
@@ -534,5 +494,5 @@ window.__x_spoof.refresh = () => { refreshRuntimeFromStorage();
 };
   window.__x_spoof.detectNow = () => detectRealNameAndHandle();
 
-  console.log('[X SPOOFER v6.2] loaded — Shift+S settings, Shift+U toggle (checkboxes live-apply).');
+  console.log('[X SPOOFER v6.2] loaded — Shift+S settings, Shift+U toggle (checkboxes live-apply). made by wish and fusi with love 💓');
 })();
