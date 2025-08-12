@@ -2,7 +2,7 @@
 // @name         cool x larp haha xd
 // @namespace    http://tampermonkey.net/
 // @version      6.2
-// @description  fusi and wish made this
+// @description  fusi and wish made this hahhahhahahahahaha
 // @match        https://twitter.com/*
 // @match        https://x.com/*
 // @grant        none
@@ -95,7 +95,6 @@
     for (const link of links) {
       if (!isVisible(link)) continue;
       const label = (link.textContent || '').toLowerCase();
-      // try to locate numeric span(s)
       const numSpan = link.querySelector('span span') || link.querySelector('span');
       if (!numSpan) continue;
       const cleanNum = (numSpan.textContent || '').trim().replace(/[^\d]/g, '');
