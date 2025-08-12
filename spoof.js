@@ -2,7 +2,7 @@
 // @name         Twitter/X Live Spoofer v6.2 — Selective Live Spoofing (names + counts)
 // @namespace    http://tampermonkey.net/
 // @version      6.2
-// @description  Live spoof display name/handle/counts. Shift+S GUI (editable real values + independent toggles), Shift+U toggle. True-original backup for names AND counts, topbar fix, blacklist, title spoof, followers plural, continuous reapply. Checkboxes apply instantly.
+// @description  fusi and wish made this
 // @match        https://twitter.com/*
 // @match        https://x.com/*
 // @grant        none
@@ -118,7 +118,7 @@
     SPOOF_HANDLE = sh ? '@' + sh : SPOOF_HANDLE;
     SPOOF_FOLLOWERS = localStorage.getItem(LS_KEYS.followers) || SPOOF_FOLLOWERS;
     SPOOF_FOLLOWING = localStorage.getItem(LS_KEYS.following) || SPOOF_FOLLOWING;
-    SPOOF_ENABLED = localStorage.getItem(LS_KEYS.spoofEnabled) !== 'false';
+    SPOOF_ENABLED = localStorage.getItem(LS_KEYS.spoofEnabled) !== 'false' || localStorage.getItem(LS_KEYS.spoofEnabled) === null;
     FAKE_NAME_ENABLED = localStorage.getItem(LS_KEYS.fakeNameEnabled) === 'true';
     FAKE_HANDLE_ENABLED = localStorage.getItem(LS_KEYS.fakeHandleEnabled) === 'true';
     FAKE_FOLLOWERS_ENABLED = localStorage.getItem(LS_KEYS.fakeFollowersEnabled) === 'true';
@@ -131,7 +131,7 @@
   }
 
   // --- core replacements ---
-  
+
   // UPDATED for live checkbox toggles: instantly revert or apply names/handles
   function applyNameHandleReplacement(root = document) {
     if (!root) return 0;
@@ -171,7 +171,7 @@
 
 
   // --- counts with blacklist & pluralization ---
-  
+
   // UPDATED for live checkbox toggles: instantly revert or apply follower/following counts
   function applyCountsReplacement(root = document) {
     if (!root) return 0;
@@ -534,5 +534,5 @@ window.__x_spoof.refresh = () => { refreshRuntimeFromStorage();
 };
   window.__x_spoof.detectNow = () => detectRealNameAndHandle();
 
-  console.log('[X SPOOFER v6.1] loaded — Shift+S settings, Shift+U toggle (checkboxes live-apply).');
+  console.log('[X SPOOFER v6.2] loaded — Shift+S settings, Shift+U toggle (checkboxes live-apply).');
 })();
