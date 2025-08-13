@@ -18,7 +18,7 @@ Don't expect the script to be perfect, of course there's gonna be some bugs in i
 
 ## 🛠 Install
 
-1. Install [Tampermonkey](https://tampermonkey.net/)
+1. Install [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en)
 2. Add the script manually, there's a tutorial video in the Telegram if you don't know how to.
 3. Visit `x.com`
 4. Press Shift+S to bring up the GUI, tick the boxes on the things you wanna spoof.
