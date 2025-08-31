@@ -39,7 +39,7 @@ I decided to make this script for https://t.me/dontpaytolarp in case if coneticl
 
 ## 👋 Outro
 If for whatever the fuck reason you need support contact @wasthattoomuchforyou on telegram heh
-Don't pay for larp scripts join @larpforfree today
+Don't pay for larp scripts join @dontpaytolarp today
 
 ## 💀 License
 
