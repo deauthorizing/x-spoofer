@@ -1,10 +1,10 @@
 # x-larp
 
-A userscript to LARP your username and followers on [x.com](https://x.com) - made by wish and fusi.
+A userscript to LARP your username and followers on [x.com](https://x.com) - made by wish and epik.
 
 # ⚠️ Bugs
 
-Don't expect the script to be perfect, of course there's gonna be some bugs in it so if you see any then please contact [@wasthattoomuchforyou](https://t.me/wasthattoomuchforyou) or [@loficat](https://t.me/loficat). Send us a video of the bug so we know how to fix it.
+Don't expect the script to be perfect, of course there's gonna be some bugs in it so if you see any then please contact [@wasthattoomuchforyou](https://t.me/wasthattoomuchforyou). Send me a video of the bug so i know how to fix it.
 
 ## 🌀 What It Does
 
@@ -35,10 +35,10 @@ This is a **visual-only LARP**. It does not change your actual @handle, display 
 Also if you resell this you are a broke no name
 
 ## 🛫 FreeLarpTools Telegram Channel
-I decided to make this script for https://t.me/larpforfree in case if coneticlarp ever decided to make one similar to this, if it has the exact same GUI and same features then we will know if he skidded this shit or not.
+I decided to make this script for https://t.me/dontpaytolarp in case if coneticlarp ever decided to make one similar to this, if it has the exact same GUI and same features then we will know if he skidded this shit or not.
 
 ## 👋 Outro
-If for whatever the fuck reason you need support contact @wasthattoomuchforyou or @loficat on telegram heh
+If for whatever the fuck reason you need support contact @wasthattoomuchforyou on telegram heh
 Don't pay for larp scripts join @larpforfree today
 
 ## 💀 License
